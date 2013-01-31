@@ -11,7 +11,7 @@ Requirements
 Installation
 ------------
 
-Create or modify you composer.json
+Create or modify your composer.json
 
 ```
 {
@@ -36,6 +36,7 @@ Usage
 1,"some text",150
 2,"some multi line
 text",2000
+```
 
 ``` php
 <?php
