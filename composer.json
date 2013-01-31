@@ -1,0 +1,17 @@
+{
+    "name": "kzykhys/php-csv-parser",
+    "description": "Convert CSV to array (Excel style is fully suppoted!)",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kazuyuki Hayashi",
+            "email": "hayashi@valnur.net"
+        }
+    ],
+    "require": {
+        "PHP": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": { "": "src/" }
+    }
+}
