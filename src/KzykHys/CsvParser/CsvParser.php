@@ -16,6 +16,11 @@ class CsvParser
     private $csv = array();
 
     /**
+     * @var array Options
+     */
+    private $option = array();
+
+    /**
      * @var int current row
      */
     private $row = 0;
@@ -44,64 +49,75 @@ class CsvParser
      * Returns new instance from CSV file
      *
      * @param string $file   The CSV string to parse
-     * @param string $encode The encoding of file
+     * @param array  $option Options
      *
      * @throws \InvalidArgumentException
      *
      * @return CsvParser
      */
-    public static function fromFile($file, $encode = 'CP932')
+    public static function fromFile($file, array $option = array())
     {
         if (!file_exists($file)) {
             throw new \InvalidArgumentException('File not found: ' . $file);
         }
 
-        return self::fromString(file_get_contents($file, $encode));
+        return new self(new Iterator\FileIterator($file), $option);
     }
 
     /**
      * Returns new instance from string
      *
      * @param string $csv    The CSV string to parse
-     * @param string $encode The encoding of source string
+     * @param array  $option Options
      *
      * @return CsvParser
      */
-    public static function fromString($csv, $encode = 'CP932')
+    public static function fromString($csv, array $option = array())
     {
-        $csv   = mb_convert_encoding($csv, 'UTF-8', $encode);
-        $lines = preg_split('/\n/', $csv, -1);
+        $csv   = mb_convert_encoding($csv, 'UTF-8', isset($option['encoding']) ? $option['encoding'] : 'auto');
+        $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        return new self($lines);
+        return self::fromArray($lines, $option);
+    }
+
+    /**
+     * Returns new instance from array
+     *
+     * @param array  $csv    The lines of csv content
+     * @param array  $option Options
+     *
+     * @return CsvParser
+     */
+    public static function fromArray(array $csv, array $option = array())
+    {
+        return new self(new \ArrayIterator($csv), $option);
     }
 
     /**
      * Constructor
      *
-     * @param array $csv The lines of CSV to parse
+     * @param \Iterator $csv The lines of CSV to parse
+     * @param array     $option
      */
-    public function __construct(array $csv)
+    public function __construct(\Iterator $csv, array $option = array())
     {
         $this->csv = $csv;
+        $this->option = array_merge(array(
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'encoding'  => 'CP932'
+        ), $option);
     }
 
     /**
      * Parse CSV lines
      *
-     * @param array $option [optional] Options (encodingFrom)
-     *
      * @return array
      */
-    public function parse(array $option = array())
+    public function parse()
     {
-        // merge default option and passed option
-        $option = array_merge(array(
-            'delimiter' => ',',
-            'enclosure' => '"'
-        ), $option);
-
         // revert necessary delimiter
-        $this->revert = $option['delimiter'];
+        $this->revert = $this->option['delimiter'];
 
         // loop over the lines
         foreach ($this->csv as $line) {
@@ -110,34 +126,32 @@ class CsvParser
                 continue;
             }
 
-            $line .= "\n";
-
             // split the line by 'delimiter'
-            $tokens = explode($option['delimiter'], $line);
+            $tokens = explode($this->option['delimiter'], $line);
 
             // loop over the columns
             foreach ($tokens as $value) {
 
                 // check the first letter is 'enclosure' or not
-                if (substr($value, 0, 1) == $option['enclosure']) {
+                if (substr($value, 0, 1) == $this->option['enclosure']) {
                     // check the last letter is 'enclosure'
-                    if (substr($value, -1) == $option['enclosure']) {
-                        $this->processEnclosedField($value, $option);
+                    if (substr($value, -1) == $this->option['enclosure']) {
+                        $this->processEnclosedField($value, $this->option);
                     } else {
-                        $this->processContinuousField($value, $option);
+                        $this->processContinuousField($value, $this->option);
                     }
 
                 } else { // first letter is NOT 'enclosure'
                     // check the last letter is 'enclosure'
-                    if(substr($value, -1) == $option['enclosure']) {
-                        $this->processClosingField($value, $option);
+                    if(substr($value, -1) == $this->option['enclosure']) {
+                        $this->processClosingField($value, $this->option);
                     } else {
-                        $this->processField($value, $option);
+                        $this->processField($value, $this->option);
                     }
                 }
 
                 if ($this->revert == "") {
-                    $this->revert = $option['delimiter'];
+                    $this->revert = $this->option['delimiter'];
                 }
             }
 
