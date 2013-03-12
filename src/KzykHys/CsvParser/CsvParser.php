@@ -74,7 +74,7 @@ class CsvParser
      */
     public static function fromString($csv, array $option = array())
     {
-        $csv   = mb_convert_encoding($csv, 'UTF-8', isset($option['encoding']) ? $option['encoding'] : 'auto');
+        //$csv   = mb_convert_encoding($csv, 'UTF-8', isset($option['encoding']) ? $option['encoding'] : 'auto');
         $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
 
         return self::fromArray($lines, $option);
@@ -121,6 +121,8 @@ class CsvParser
 
         // loop over the lines
         foreach ($this->csv as $line) {
+
+            $line = mb_convert_encoding($line, 'UTF-8', isset($this->option['encoding']) ? $this->option['encoding'] : 'auto');
 
             if (empty($line)) {
                 continue;
