@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>PHPCsvParser by kzykhys</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>PHPCsvParser</h1>
+          <h2>Convert CSV to array (Excel style is fully suppoted!)</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/kzykhys/PHPCsvParser/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/kzykhys/PHPCsvParser/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/kzykhys/PHPCsvParser" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>PHPCsvParser</h1>
+
+<p>Convert CSV to array/Iterator (Excel style is fully suppoted!)</p>
+
+<h2>Why PHPCsvParser?</h2>
+
+<p>As you know, PHP has built-in <code>fgetcsv</code> function.
+But has some probrems:</p>
+
+<ul>
+<li>Line breaks in the cell</li>
+<li>Multibyte string (especially NON UTF-8)</li>
+</ul><h2>Requirements</h2>
+
+<p><strong>PHP5.3.3 or later</strong></p>
+
+<h2>Installation</h2>
+
+<p>Create or modify your composer.json</p>
+
+<pre><code>{
+    "require": {
+        "kzykhys/php-csv-parser": "~1.1.0"
+    }
+}
+</code></pre>
+
+<p>And run</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>php composer.phar install
+</pre></div>
+
+<h2>Usage</h2>
+
+<h3>Parse a CSV file</h3>
+
+<pre><code>1,"some text",150
+2,"some multi line
+text",2000
+</code></pre>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
+
+<span class="nv">$parser</span> <span class="o">=</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="o">::</span><span class="na">fromFile</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">);</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$parser</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+</pre></div>
+
+<p>This is the same as:</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
+
+<span class="nv">$iterator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\KzykHys\CsvParser\Iterator\FileIterator</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">);</span>
+<span class="nv">$parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="p">(</span><span class="nv">$iterator</span><span class="p">);</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$parser</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+</pre></div>
+
+<h3>Parse from string</h3>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
+
+<span class="nv">$parser</span> <span class="o">=</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="o">::</span><span class="na">fromString</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$parser</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+</pre></div>
+
+<h3>Parse from array/Iterator</h3>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
+
+<span class="nv">$parser</span> <span class="o">=</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="o">::</span><span class="na">fromArray</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'a,b,c,d'</span><span class="p">,</span> <span class="s1">'e,f,g,h'</span><span class="p">));</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$parser</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
+
+<span class="nv">$iterator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ArrayIterator</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'a,b,c,d'</span><span class="p">,</span> <span class="s1">'e,f,g,h'</span><span class="p">));</span>
+<span class="nv">$parser2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="p">(</span><span class="nv">$iterator</span><span class="p">);</span>
+<span class="nv">$result2</span> <span class="o">=</span> <span class="nv">$parser2</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$result2</span><span class="p">);</span>
+</pre></div>
+
+<h3>Handling Large files</h3>
+
+<p>The class <code>\KzykHys\CsvParser\CsvParser</code> itself is <code>Traversable</code>.
+so You can convert CSV lines on-the-fly.</p>
+
+<p>Following example is the best choice for performance:</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
+
+<span class="nv">$parser</span> <span class="o">=</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="o">::</span><span class="na">fromFile</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">);</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$parser</span> <span class="k">as</span> <span class="nv">$record</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// handles each record</span>
+    <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$record</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>Author</h2>
+
+<p>Kazuyuki Hayashi (<a href="https://github.com/kzykhys" class="user-mention">@kzykhys</a>)</p>
+
+<h2>Changelog</h2>
+
+<p>1.2.0:
+    * Added new class CsvIterator
+    * \IteratorAggregate support for CsvParser</p>
+
+<p>1.1.0:
+    * 1st argument of CsvParser::__constructor is now \Iterator</p>
+
+<h2>License</h2>
+
+<p>Copyright (c) 2013 Kazuyuki Hayashi</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+        </section>
+
+        <footer>
+          PHPCsvParser is maintained by <a href="https://github.com/kzykhys">kzykhys</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
