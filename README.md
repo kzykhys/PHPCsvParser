@@ -22,7 +22,7 @@ Installation
 
 Create or modify your composer.json
 
-```
+``` json
 {
     "require": {
         "kzykhys/php-csv-parser": "~1.1.0"
@@ -130,12 +130,14 @@ Kazuyuki Hayashi (@kzykhys)
 Changelog
 ---------
 
-1.2.0:
-    * Added new class CsvIterator
-    * \IteratorAggregate support for CsvParser
+**1.2.0**:
 
-1.1.0:
-    * 1st argument of CsvParser::__constructor is now \Iterator
+* Added new class CsvIterator
+* \IteratorAggregate support for CsvParser
+
+**1.1.0**:
+
+* 1st argument of CsvParser::__constructor is now \Iterator
 
 License
 -------
