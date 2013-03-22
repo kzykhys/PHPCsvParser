@@ -1,7 +1,16 @@
 PHPCsvParser
 ============
 
-Convert CSV to array (Excel style is fully suppoted!)
+Convert CSV to array/Iterator (Excel style is fully suppoted!)
+
+Why PHPCsvParser?
+-----------------
+
+As you know, PHP has built-in `fgetcsv` function.
+But has some probrems:
+
+* Line breaks in the cell
+* Multibyte string (especially NON UTF-8)
 
 Requirements
 ------------
@@ -16,7 +25,7 @@ Create or modify your composer.json
 ```
 {
     "require": {
-        "kzykhys/php-csv-parser": "1.0.x"
+        "kzykhys/php-csv-parser": "~1.1.0"
     }
 }
 ```
@@ -49,9 +58,84 @@ $result = $parser->parse();
 var_dump($result);
 ```
 
+This is the same as:
+
+``` php
+<?php
+
+require('./vendor/autoload.php');
+
+$iterator = new \KzykHys\CsvParser\Iterator\FileIterator('./test.csv');
+$parser = new \KzykHys\CsvParser\CsvParser($iterator);
+$result = $parser->parse();
+
+var_dump($result);
+```
+
+### Parse from string
+
+``` php
+<?php
+
+require('./vendor/autoload.php');
+
+$parser = \KzykHys\CsvParser\CsvParser::fromString($string);
+$result = $parser->parse();
+
+var_dump($result);
+```
+
+### Parse from array/Iterator
+
+``` php
+<?php
+
+require('./vendor/autoload.php');
+
+$parser = \KzykHys\CsvParser\CsvParser::fromArray(array('a,b,c,d', 'e,f,g,h'));
+$result = $parser->parse();
+
+$iterator = new ArrayIterator(array('a,b,c,d', 'e,f,g,h'));
+$parser2 = new \KzykHys\CsvParser\CsvParser($iterator);
+$result2 = $parser2->parse();
+
+var_dump($result);
+var_dump($result2);
+```
+
+### Handling Large files
+
+The class `\KzykHys\CsvParser\CsvParser` itself is `Traversable`.
+so You can convert CSV lines on-the-fly.
+
+Following example is the best choice for performance:
+
+``` php
+<?php
+
+require('./vendor/autoload.php');
+
+$parser = \KzykHys\CsvParser\CsvParser::fromFile('./test.csv');
+
+foreach ($parser as $record) {
+    // handles each record
+    var_dump($record);
+}
+```
+
 Author
 ------
 Kazuyuki Hayashi (@kzykhys)
+
+Changelog
+---------
+
+1.2.0:
+    * Added new class CsvIterator
+    * \IteratorAggregate support for CsvParser
+
+1.1.0:
+    * 1st argument of CsvParser::__constructor is now \Iterator
 
 License
 -------

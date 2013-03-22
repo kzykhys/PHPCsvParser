@@ -3,9 +3,9 @@
 namespace KzykHys\CsvParser\Iterator;
 
 /**
- * Class CsvIterator
+ * Iterator for thin wrap of `fopen`
  *
- * @package KzykHys\CsvParser
+ * @author Kazuyuki Hayashi <hayashi@valnur.net>
  */
 class FileIterator implements \Iterator
 {
