@@ -68,13 +68,13 @@ EOF;
         $parser = \KzykHys\CsvParser\CsvParser::fromFile('foo.csv');
     }
 
-    public function testFileContaintsMultilineField()
+    public function testFileContainsMultipleLineField()
     {
         $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/multiline.utf8.csv');
         $result = $parser->parse();
 
         $this->assertEquals(array(
-            array('1', 'The text', "The multiline text\r\ncontains a few lines.\r\nEND_OF_FIELD", 150, '2012-12-12')
+            array('1', 'The text', "The multiline text\r\ncontains a few lines.\r\nEND_OF_FIELD", '150', '2012-12-12')
         ), $result);
     }
 
