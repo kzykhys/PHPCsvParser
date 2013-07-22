@@ -7,6 +7,11 @@ php:
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install
+  - php composer.phar install --dev --no-interaction
 
-script: phpunit --coverage-text
+script:
+  - mkdir -p build/logs
+  - phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls
