@@ -70,7 +70,7 @@ This is the same as:
 
 require('./vendor/autoload.php');
 
-$iterator = new \KzykHys\CsvParser\Iterator\FileIterator('./test.csv');
+$iterator = new \SplFileObject('./test.csv');
 $parser = new \KzykHys\CsvParser\CsvParser($iterator);
 $result = $parser->parse();
 
@@ -127,6 +127,23 @@ foreach ($parser as $record) {
     var_dump($record);
 }
 ```
+
+### Options
+
+You can pass the options to 2nd argument of each static methods.
+
+* CsvParser::fromFile($file, $options);
+* CsvParser::fromString($string, $options);
+* CsvParser::fromArray($array, $options);
+* new CsvParser($iterator, $options);
+
+Available options are:
+
+| Option        | Description                                           | Default |
+| ------------- |-------------------------------------------------------|---------|
+| delimiter     | The field delimiter (one character only)              | ,       |
+| enclosure     | The field enclosure character (one character only).   | "       |
+| encoding      | The type of encoding                                  | CP932   |
 
 Author
 ------
