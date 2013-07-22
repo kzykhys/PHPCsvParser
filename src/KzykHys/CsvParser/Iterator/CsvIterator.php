@@ -68,6 +68,8 @@ class CsvIterator implements \Iterator
      */
     public function current()
     {
+        $this->result = array();
+
         // revert necessary delimiter
         $this->revert = $this->option['delimiter'];
 
@@ -86,6 +88,7 @@ class CsvIterator implements \Iterator
 
             // loop over the columns
             foreach ($tokens as $value) {
+                $value = preg_replace('/"(\r?\n)*$/', '"', $value);
 
                 // check the first letter is 'enclosure' or not
                 if (substr($value, 0, 1) == $this->option['enclosure']) {
@@ -279,7 +282,13 @@ class CsvIterator implements \Iterator
      */
     public function valid()
     {
-        return $this->iterator->valid();
+        if ($this->iterator->valid()) {
+            $line = trim($this->iterator->current());
+
+            return $line !== '';
+        }
+
+        return false;
     }
 
     /**
