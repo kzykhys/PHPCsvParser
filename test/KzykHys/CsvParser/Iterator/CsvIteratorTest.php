@@ -4,25 +4,38 @@
 class CsvIteratorTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testIterator()
+    public function testSplFileObject()
     {
-        $csv = new \KzykHys\CsvParser\Iterator\FileIterator(__DIR__.'/../CsvParserTest.csv');
+        $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
 
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator($csv);
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \SplFileObject($file));
 
-        foreach ($iterator as $record) {
-            var_dump($record);
-        }
+        $result = iterator_to_array($iterator);
+
+        $this->assertEquals(array(
+            array('1', 'The String', '3', '2012-11-15', '9'),
+            array('2', "The Multi-line\r\nString", '192818281211212212', '2012-11-15', 'ABC')
+        ), $result);
     }
 
-    public function testParser()
+    public function testArray()
     {
-        $csv = new \KzykHys\CsvParser\Iterator\FileIterator(__DIR__.'/../CsvParserTest.csv');
+        $test = array('1,2,3,4', '5,6,7,8');
 
-        $parser = new \KzykHys\CsvParser\CsvParser($csv);
-        $result = $parser->parse();
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new ArrayIterator($test));
 
-        var_dump($result);
+        $result = iterator_to_array($iterator);
+
+        $this->assertEquals(array(array(1, 2, 3, 4), array(5, 6, 7, 8)), $result);
+    }
+
+    public function testBlank()
+    {
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new ArrayIterator());
+
+        $result = iterator_to_array($iterator);
+
+        $this->assertEquals(array(), $result);
     }
 
 }
