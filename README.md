@@ -15,6 +15,7 @@ But has some probrems:
 
 * Line breaks in the cell
 * Multibyte string (especially NON UTF-8)
+* Double quote in the cell
 
 Requirements
 ------------
@@ -134,40 +135,9 @@ Kazuyuki Hayashi (@kzykhys)
 Changelog
 ---------
 
-**1.2.1**:
-
-* Removed internal class `FileIterator`. Use built-in `\SplFileObject` instead.
-* Fixed bugs
-    * The last line of csv file parsed twice.
-    * Passing empty string to CsvParser::fromString() causes infinite loop.
-
-**1.2.0**:
-
-* Added new class CsvIterator
-* \IteratorAggregate support for CsvParser
-
-**1.1.0**:
-
-* 1st argument of CsvParser::__constructor is now \Iterator
+see [CHANGELOG](CHANGELOG.md)
 
 License
 -------
 
-Copyright (c) 2013 Kazuyuki Hayashi
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[The MIT License](LICENSE)
