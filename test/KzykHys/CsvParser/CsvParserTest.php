@@ -76,6 +76,13 @@ EOF;
         $this->assertEquals(array(
             array('1', 'The text', "The multiline text\ncontains a few lines.\nEND_OF_FIELD", '150', '2012-12-12')
         ), $result);
+
+        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/multiline2.utf8.csv');
+        $result = $parser->parse();
+
+        $this->assertEquals(array(
+            array('1', 'The text', "The multiline text\n\ncontains a few lines.\n\nEND_OF_FIELD", '150', '2012-12-12')
+        ), $result);
     }
 
     public function testHandleLargeFile()
@@ -83,8 +90,21 @@ EOF;
         // large_file.cp932.csv is from Japan Post
         $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/large_file.cp932.csv');
 
+        $index = 0;
+        $result = array();
         foreach ($parser as $line) {
+            if ($index++ == 3) {
+                break;
+            }
+
+            $result[] = $line;
         }
+
+        $this->assertEquals(array(
+            array('15101',"950  ","9500000","ﾆｲｶﾞﾀｹﾝ","ﾆｲｶﾞﾀｼｷﾀｸ","ｲｶﾆｹｲｻｲｶﾞﾅｲﾊﾞｱｲ","新潟県","新潟市北区","以下に掲載がない場合",'0','0','0','1','0','0'),
+            array('15101',"95033","9503315","ﾆｲｶﾞﾀｹﾝ","ﾆｲｶﾞﾀｼｷﾀｸ","ｱｻﾋﾏﾁ","新潟県","新潟市北区","朝日町",'0','0','1','0','0','0'),
+            array('15101',"95033","9503377","ﾆｲｶﾞﾀｹﾝ","ﾆｲｶﾞﾀｼｷﾀｸ","ｱﾔﾉ","新潟県","新潟市北区","彩野",'0','0','0','0','0','0')
+        ), $result);
     }
 
     public function testBlankInputFromString()
@@ -114,6 +134,22 @@ EOF;
         $result = $parser->parse();
 
         $this->assertEquals(array(), $result);
+    }
+
+    public function testCsvExportedFromExcel()
+    {
+        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/excel.csv');
+        $result = $parser->parse();
+
+        $this->assertCount(4, $result);
+        $this->assertEquals(array(
+            "2013/5/1",
+            "1.23131E+20",
+            'The string contains double quote "',
+            '" The string contains double quote',
+            'The string contains " double quote',
+            "The string contains line breaks\nThe string contains line breaks"
+        ), $result[0]);
     }
 
 }

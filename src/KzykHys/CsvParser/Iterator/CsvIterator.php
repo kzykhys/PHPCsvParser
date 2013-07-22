@@ -79,9 +79,9 @@ class CsvIterator implements \Iterator
 
             $line = mb_convert_encoding($line, 'UTF-8', isset($this->option['encoding']) ? $this->option['encoding'] : 'auto');
 
-            if (empty($line)) {
-                continue;
-            }
+//            if (empty($line)) {
+//                continue;
+//            }
 
             // split the line by 'delimiter'
             $tokens = explode($this->option['delimiter'], $line);
@@ -137,7 +137,8 @@ class CsvIterator implements \Iterator
     private function processEnclosedField($value, array $option)
     {
         // then, remove enclosure and line feed
-        $cell = rtrim(trim($value, $option['enclosure']));
+        //$cell = trim($value, $option['enclosure']);
+        $cell = $this->trimEnclosure($value, $option['enclosure']);
         // replace the escape sequence "" to "
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
 
@@ -156,15 +157,11 @@ class CsvIterator implements \Iterator
      */
     private function processContinuousField($value, array $option)
     {
-        $cell = ltrim($value, $option['enclosure']);
+        //$cell = ltrim($value, $option['enclosure']);
+        $cell = $this->trimLeftEnclosure($value, $option['enclosure']);
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
 
-        if ($this->continue) {
-            $this->joinCell($this->revert . $cell);
-        } else {
-            $this->setCell($cell);
-        }
-
+        $this->setCell($cell);
         $this->continue = true;
     }
 
@@ -181,15 +178,11 @@ class CsvIterator implements \Iterator
      */
     private function processClosingField($value, array $option)
     {
-        $cell = rtrim($value, $option['enclosure']);
+        //$cell = rtrim($value, $option['enclosure']);
+        $cell = $this->trimRightEnclosure($value, $option['enclosure']);
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
 
-        if($this->continue) {
-            $this->joinCell($this->revert . $cell);
-        } else {
-            $this->setCell($cell);
-        }
-
+        $this->joinCell($this->revert . $cell);
         $this->continue = false;
         $this->col++;
     }
@@ -246,6 +239,53 @@ class CsvIterator implements \Iterator
     private function unescapeEnclosure($value, $enclosure)
     {
         return str_replace(str_repeat($enclosure, 2), $enclosure, $value);
+    }
+
+    /**
+     * String enclosure string from beginning and end of the string
+     *
+     * @param string $value
+     * @param string $enclosure
+     * @return string
+     */
+    private function trimEnclosure($value, $enclosure)
+    {
+        $value = $this->trimLeftEnclosure($value, $enclosure);
+        $value = $this->trimRightEnclosure($value, $enclosure);
+
+        return $value;
+    }
+
+    /**
+     * Strip an enclosure string from beginning of the string
+     *
+     * @param string $value
+     * @param string $enclosure
+     * @return string
+     */
+    private function trimLeftEnclosure($value, $enclosure)
+    {
+        if (substr($value, 0, 1) == $enclosure) {
+            $value = substr($value, 1);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Strip an enclosure string from end of the string
+     *
+     * @param string $value
+     * @param string $enclosure
+     * @return string
+     */
+    private function trimRightEnclosure($value, $enclosure)
+    {
+        if (substr($value, -1) == $enclosure) {
+            $value = substr($value, 0, -1);
+        }
+
+        return $value;
     }
 
     /**
