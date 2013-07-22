@@ -3,6 +3,8 @@ PHPCsvParser
 
 Convert CSV to array/Iterator (Excel style is fully suppoted!)
 
+[![Latest Stable Version](https://poser.pugx.org/kzykhys/php-csv-parser/v/stable.png)](https://packagist.org/packages/kzykhys/php-csv-parser)
+
 Why PHPCsvParser?
 -----------------
 
@@ -129,6 +131,13 @@ Kazuyuki Hayashi (@kzykhys)
 
 Changelog
 ---------
+
+**1.2.1**:
+
+* Removed internal class `FileIterator`. Use built-in `\SplFileObject` instead.
+* Fixed bugs
+    * The last line of csv file parsed twice.
+    * Passing empty string to CsvParser::fromString() causes infinite loop.
 
 **1.2.0**:
 
