@@ -33,7 +33,7 @@ class CsvParser implements \IteratorAggregate
             throw new \InvalidArgumentException('File not found: ' . $file);
         }
 
-        return new self(new Iterator\FileIterator($file), $option);
+        return new self(new \SplFileObject($file), $option);
     }
 
     /**
@@ -46,7 +46,6 @@ class CsvParser implements \IteratorAggregate
      */
     public static function fromString($csv, array $option = array())
     {
-        //$csv   = mb_convert_encoding($csv, 'UTF-8', isset($option['encoding']) ? $option['encoding'] : 'auto');
         $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
 
         return self::fromArray($lines, $option);
