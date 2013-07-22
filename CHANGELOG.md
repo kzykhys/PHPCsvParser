@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+**1.2.2**:
+
+* Fixed bug: The escaped double quote at beginning or end of string will be dropped.
+
 **1.2.1**:
 
 * Removed internal class `FileIterator`. Use built-in `\SplFileObject` instead.
