@@ -14,7 +14,7 @@ class CsvIteratorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             array('1', 'The String', '3', '2012-11-15', '9'),
-            array('2', "The Multi-line\r\nString", '192818281211212212', '2012-11-15', 'ABC')
+            array('2', "The Multi-line\nString", '192818281211212212', '2012-11-15', 'ABC')
         ), $result);
     }
 
