@@ -38,4 +38,20 @@ class CsvIteratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $result);
     }
 
+    public function testNamedIndex()
+    {
+        $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
+
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \SplFileObject($file), array(
+            'header' => array('ID', 'Text', 'Key', 'Date')
+        ));
+
+        $result = iterator_to_array($iterator);
+
+        $this->assertEquals(array(
+            array('ID' => '1', 'Text' => 'The String', 'Key' => '3', 'Date' => '2012-11-15', 4 => '9'),
+            array('ID' => '2', 'Text' => "The Multi-line\nString", 'Key' => '192818281211212212', 'Date' => '2012-11-15', 4 => 'ABC')
+        ), $result);
+    }
+
 }

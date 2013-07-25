@@ -73,12 +73,17 @@ class CsvParser implements \IteratorAggregate
     public function __construct(\Iterator $csv, array $option = array())
     {
         $option = array_merge(array(
-            'delimiter' => ',',
-            'enclosure' => '"',
-            'encoding'  => 'CP932'
+            'offset' => 0,
+            'limit'  => -1
         ), $option);
 
         $this->iterator = new CsvIterator($csv, $option);
+
+        if ($option['offset'] > 0 || $option['limit'] > -1) {
+            $this->iterator = new \LimitIterator(
+                new \CachingIterator($this->iterator, \CachingIterator::FULL_CACHE), $option['offset'], $option['limit']
+            );
+        }
     }
 
     /**

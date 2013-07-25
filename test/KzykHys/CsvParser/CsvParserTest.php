@@ -152,4 +152,17 @@ EOF;
         ), $result[0]);
     }
 
+    public function testOffset()
+    {
+        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/excel.csv', array('offset' => 1));
+        $result = $parser->parse();
+
+        $this->assertCount(3, $result);
+
+        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/excel.csv', array('offset' => 2));
+        $result = $parser->parse();
+
+        $this->assertCount(2, $result);
+    }
+
 }

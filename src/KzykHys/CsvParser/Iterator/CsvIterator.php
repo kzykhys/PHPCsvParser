@@ -55,7 +55,8 @@ class CsvIterator implements \Iterator
         $this->option = array_merge(array(
             'delimiter' => ',',
             'enclosure' => '"',
-            'encoding'  => 'CP932'
+            'encoding'  => 'CP932',
+            'header'    => false
         ), $option);
     }
 
@@ -208,7 +209,7 @@ class CsvIterator implements \Iterator
      */
     private function setCell($cell)
     {
-        $this->result[$this->col] = $cell;
+        $this->result[$this->getIndexForColumn($this->col)] = $cell;
     }
 
     /**
@@ -218,7 +219,7 @@ class CsvIterator implements \Iterator
      */
     private function joinCell($cell)
     {
-        $this->result[$this->col] .= $cell;
+        $this->result[$this->getIndexForColumn($this->col)] .= $cell;
     }
 
     /**
@@ -282,6 +283,18 @@ class CsvIterator implements \Iterator
     }
 
     /**
+     * @param $column
+     */
+    private function getIndexForColumn($column)
+    {
+        if (is_array($this->option['header']) && isset($this->option['header'][$column])) {
+            return $this->option['header'][$column];
+        }
+
+        return $column;
+    }
+
+    /**
      * Move forward to next element
      *
      * @link http://php.net/manual/en/iterator.next.php
@@ -291,6 +304,7 @@ class CsvIterator implements \Iterator
     public function next()
     {
         $this->iterator->next();
+        $this->key++;
     }
 
     /**
@@ -302,7 +316,7 @@ class CsvIterator implements \Iterator
      */
     public function key()
     {
-        return $this->key++;
+        return $this->key;
     }
 
     /**
@@ -334,6 +348,7 @@ class CsvIterator implements \Iterator
     public function rewind()
     {
         $this->iterator->rewind();
+        $this->key = 0;
     }
 
 }

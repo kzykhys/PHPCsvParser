@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+**2.0.0**:
+
+* Added new options: `offset`, `limit`, `header`
+
 **1.2.2**:
 
 * Fixed bug: The escaped double quote at beginning or end of string will be dropped.
