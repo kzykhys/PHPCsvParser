@@ -19,7 +19,7 @@
 
         <header>
           <h1>PHPCsvParser</h1>
-          <h2>Convert CSV to array (Excel style is fully suppoted!)</h2>
+          <h2>Convert CSV to array/Iterator (Excel style is fully suppoted!)</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -37,7 +37,8 @@
 <p>Convert CSV to array/Iterator (Excel style is fully suppoted!)</p>
 
 <p><a href="https://packagist.org/packages/kzykhys/php-csv-parser"><img src="https://poser.pugx.org/kzykhys/php-csv-parser/v/stable.png" alt="Latest Stable Version"></a>
-<a href="https://travis-ci.org/kzykhys/PHPCsvParser"><img src="https://travis-ci.org/kzykhys/PHPCsvParser.png?branch=master" alt="Build Status"></a></p>
+<a href="https://travis-ci.org/kzykhys/PHPCsvParser"><img src="https://travis-ci.org/kzykhys/PHPCsvParser.png?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/kzykhys/PHPCsvParser"><img src="https://coveralls.io/repos/kzykhys/PHPCsvParser/badge.png" alt="Coverage Status"></a></p>
 
 <h2>
 <a name="why-phpcsvparser" class="anchor" href="#why-phpcsvparser"><span class="octicon octicon-link"></span></a>Why PHPCsvParser?</h2>
@@ -48,6 +49,7 @@ But has some probrems:</p>
 <ul>
 <li>Line breaks in the cell</li>
 <li>Multibyte string (especially NON UTF-8)</li>
+<li>Double quote in the cell</li>
 </ul><h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
@@ -97,7 +99,7 @@ text",2000
 
 <span class="k">require</span><span class="p">(</span><span class="s1">'./vendor/autoload.php'</span><span class="p">);</span>
 
-<span class="nv">$iterator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\KzykHys\CsvParser\Iterator\FileIterator</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">);</span>
+<span class="nv">$iterator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\SplFileObject</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">);</span>
 <span class="nv">$parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\KzykHys\CsvParser\CsvParser</span><span class="p">(</span><span class="nv">$iterator</span><span class="p">);</span>
 <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$parser</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">();</span>
 
@@ -155,7 +157,64 @@ so You can convert CSV lines on-the-fly.</p>
 <span class="p">}</span>
 </pre></div>
 
-<h2>
+<h3>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h3>
+
+<p>You can pass the options to 2nd argument of each static methods.</p>
+
+<ul>
+<li>CsvParser::fromFile($file, <strong>$options</strong>);</li>
+<li>CsvParser::fromString($string, <strong>$options</strong>);</li>
+<li>CsvParser::fromArray($array, <strong>$options</strong>);</li>
+<li>new CsvParser($iterator, <strong>$options</strong>);</li>
+</ul><p>Available options are:</p>
+
+<table>
+<thead><tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>delimiter</td>
+<td>string</td>
+<td>The field delimiter (one character only)</td>
+<td>,</td>
+</tr>
+<tr>
+<td>enclosure</td>
+<td>string</td>
+<td>The field enclosure character (one character only)</td>
+<td>"</td>
+</tr>
+<tr>
+<td>encoding</td>
+<td>string</td>
+<td>The type of encoding</td>
+<td>CP932</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>integer (&gt;=0)</td>
+<td>The sequence will start at that offset</td>
+<td>0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer (&gt;=-1)</td>
+<td>Limit maximum count of records</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>header</td>
+<td>array or false</td>
+<td>Use the specified index instead of the column number</td>
+<td>false</td>
+</tr>
+</tbody>
+</table><h2>
 <a name="author" class="anchor" href="#author"><span class="octicon octicon-link"></span></a>Author</h2>
 
 <p>Kazuyuki Hayashi (<a href="https://github.com/kzykhys" class="user-mention">@kzykhys</a>)</p>
@@ -163,47 +222,12 @@ so You can convert CSV lines on-the-fly.</p>
 <h2>
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
 
-<p><strong>1.2.1</strong>:</p>
+<p>see <a href="CHANGELOG.md">CHANGELOG</a></p>
 
-<ul>
-<li>Removed internal class <code>FileIterator</code>. Use built-in <code>\SplFileObject</code> instead.</li>
-<li>Fixed bugs
-
-<ul>
-<li>The last line of csv file parsed twice.</li>
-<li>Passing empty string to CsvParser::fromString() causes infinite loop.</li>
-</ul>
-</li>
-</ul><p><strong>1.2.0</strong>:</p>
-
-<ul>
-<li>Added new class CsvIterator</li>
-<li>\IteratorAggregate support for CsvParser</li>
-</ul><p><strong>1.1.0</strong>:</p>
-
-<ul>
-<li>1st argument of CsvParser::__constructor is now \Iterator</li>
-</ul><h2>
+<h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p>Copyright (c) 2013 Kazuyuki Hayashi</p>
-
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p><a href="LICENSE">The MIT License</a></p>
         </section>
 
         <footer>
