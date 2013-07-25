@@ -79,10 +79,6 @@ class CsvIterator implements \Iterator
 
             $line = mb_convert_encoding($line, 'UTF-8', isset($this->option['encoding']) ? $this->option['encoding'] : 'auto');
 
-//            if (empty($line)) {
-//                continue;
-//            }
-
             // split the line by 'delimiter'
             $tokens = explode($this->option['delimiter'], $line);
 
@@ -137,7 +133,6 @@ class CsvIterator implements \Iterator
     private function processEnclosedField($value, array $option)
     {
         // then, remove enclosure and line feed
-        //$cell = trim($value, $option['enclosure']);
         $cell = $this->trimEnclosure($value, $option['enclosure']);
         // replace the escape sequence "" to "
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
@@ -157,7 +152,6 @@ class CsvIterator implements \Iterator
      */
     private function processContinuousField($value, array $option)
     {
-        //$cell = ltrim($value, $option['enclosure']);
         $cell = $this->trimLeftEnclosure($value, $option['enclosure']);
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
 
@@ -178,7 +172,6 @@ class CsvIterator implements \Iterator
      */
     private function processClosingField($value, array $option)
     {
-        //$cell = rtrim($value, $option['enclosure']);
         $cell = $this->trimRightEnclosure($value, $option['enclosure']);
         $cell = $this->unescapeEnclosure($cell, $option['enclosure']);
 
