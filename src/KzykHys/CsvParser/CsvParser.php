@@ -3,6 +3,7 @@
 namespace KzykHys\CsvParser;
 
 use KzykHys\CsvParser\Iterator\CsvIterator;
+use KzykHys\CsvParser\Iterator\FileIterator;
 
 /**
  * Parse CP932 encoded CSV lines
@@ -33,7 +34,7 @@ class CsvParser implements \IteratorAggregate
             throw new \InvalidArgumentException('File not found: ' . $file);
         }
 
-        return new self(new \SplFileObject($file), $option);
+        return new self(new FileIterator($file), $option);
     }
 
     /**
@@ -46,7 +47,11 @@ class CsvParser implements \IteratorAggregate
      */
     public static function fromString($csv, array $option = array())
     {
-        $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $lines = array();
+
+        if ($csv !== '') {
+            $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
+        }
 
         return self::fromArray($lines, $option);
     }

@@ -4,11 +4,11 @@
 class CsvIteratorTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testSplFileObject()
+    public function testFileIterator()
     {
         $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
 
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \SplFileObject($file));
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \KzykHys\CsvParser\Iterator\FileIterator($file));
 
         $result = iterator_to_array($iterator);
 
@@ -42,7 +42,7 @@ class CsvIteratorTest extends PHPUnit_Framework_TestCase
     {
         $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
 
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \SplFileObject($file), array(
+        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \KzykHys\CsvParser\Iterator\FileIterator($file), array(
             'header' => array('ID', 'Text', 'Key', 'Date')
         ));
 

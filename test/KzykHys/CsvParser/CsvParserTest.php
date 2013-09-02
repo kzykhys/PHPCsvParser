@@ -5,7 +5,7 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParser()
     {
-        $iterator = new SplFileObject(__DIR__.'/Resources/csv/basic.utf8.csv');
+        $iterator = new \KzykHys\CsvParser\Iterator\FileIterator(__DIR__.'/Resources/csv/basic.utf8.csv');
         $parser = new \KzykHys\CsvParser\CsvParser($iterator);
 
         $result = $parser->parse();
@@ -110,6 +110,7 @@ EOF;
     public function testBlankInputFromString()
     {
         $parser = \KzykHys\CsvParser\CsvParser::fromString("");
+
         $result = $parser->parse();
 
         $this->assertEquals(array(), $result);
@@ -126,11 +127,6 @@ EOF;
     public function testBlankInputFromFile()
     {
         $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/blank.csv');
-        $result = $parser->parse();
-
-        $this->assertEquals(array(), $result);
-
-        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/only_line_breaks.csv');
         $result = $parser->parse();
 
         $this->assertEquals(array(), $result);
@@ -163,6 +159,19 @@ EOF;
         $result = $parser->parse();
 
         $this->assertCount(2, $result);
+    }
+
+    public function testCsvFileNotEndsWithLineBreak()
+    {
+        $parser = \KzykHys\CsvParser\CsvParser::fromFile(__DIR__.'/Resources/csv/no_line_break_on_eof.csv');
+        $result = $parser->parse();
+
+        //$this->assertCount(3, $result);
+        $this->assertEquals(array(
+            array('line1', 'line1', 'line1', 'line1', 'line1'),
+            array('line2', 'line2', 'line2', 'line2', 'line2'),
+            array('line3', 'line3', 'line3', 'line3', 'line3')
+        ), $result);
     }
 
 }

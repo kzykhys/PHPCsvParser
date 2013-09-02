@@ -329,13 +329,7 @@ class CsvIterator implements \Iterator
      */
     public function valid()
     {
-        if ($this->iterator->valid()) {
-            $line = trim($this->iterator->current());
-
-            return $line !== '';
-        }
-
-        return false;
+        return $this->iterator->valid();
     }
 
     /**
