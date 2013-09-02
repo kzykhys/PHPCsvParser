@@ -139,14 +139,19 @@ You can pass the options to 2nd argument of each static methods.
 
 Available options are:
 
-| Option     | Type           | Description                                           | Default |
-| ---------- |--------------- | ----------------------------------------------------- | ------- |
-| delimiter  | string         | The field delimiter (one character only)              | ,       |
-| enclosure  | string         | The field enclosure character (one character only)    | "       |
-| encoding   | string         | The type of encoding                                  | CP932   |
-| offset     | integer (>=0)  | The sequence will start at that offset                | 0       |
-| limit      | integer (>=-1) | Limit maximum count of records                        | -1      |
-| header     | array or false | Use the specified index instead of the column number  | false   |
+| Option     | Type           | Description                                           | Default        |
+| ---------- |--------------- | ----------------------------------------------------- | -------------- |
+| delimiter  | string         | The field delimiter (one character only)              | ,              |
+| enclosure  | string         | The field enclosure character (one character only)    | "              |
+| encoding   | string         | The type of encoding                                  | CP932          |
+| offset     | integer (>=0)  | The sequence will start at that offset                | 0              |
+| limit      | integer (>=-1) | Limit maximum count of records                        | -1 (unlimited) |
+| header     | array or false | Use the specified index instead of the column number  | false          |
+
+Testing
+-------
+
+Just run `phpunit` (PHPUnit is required)
 
 Author
 ------
