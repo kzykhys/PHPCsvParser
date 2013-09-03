@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-**2.0.0**:
+**1.4.0**:
 
 * Reverted internal class `FileIterator`.
 * Fixed #2 last line of csv file is empty
