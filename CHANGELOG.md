@@ -3,6 +3,11 @@ CHANGELOG
 
 **2.0.0**:
 
+* Reverted internal class `FileIterator`.
+* Fixed #2 last line of csv file is empty
+
+**1.3.0**:
+
 * Added new options: `offset`, `limit`, `header`
 
 **1.2.2**:
