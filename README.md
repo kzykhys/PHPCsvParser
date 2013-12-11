@@ -6,6 +6,7 @@ Convert CSV to array/Iterator (Excel style is fully suppoted!)
 [![Latest Stable Version](https://poser.pugx.org/kzykhys/php-csv-parser/v/stable.png)](https://packagist.org/packages/kzykhys/php-csv-parser)
 [![Build Status](https://travis-ci.org/kzykhys/PHPCsvParser.png?branch=master)](https://travis-ci.org/kzykhys/PHPCsvParser)
 [![Coverage Status](https://coveralls.io/repos/kzykhys/PHPCsvParser/badge.png)](https://coveralls.io/r/kzykhys/PHPCsvParser)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/67182075-8e11-4125-b9c2-6f29e5726c31/mini.png)](https://insight.sensiolabs.com/projects/67182075-8e11-4125-b9c2-6f29e5726c31)
 
 Why PHPCsvParser?
 -----------------
