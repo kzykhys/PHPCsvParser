@@ -30,7 +30,7 @@ Create or modify your composer.json
 ``` json
 {
     "require": {
-        "kzykhys/php-csv-parser": "~1.1.0"
+        "kzykhys/php-csv-parser": ">=1.1.0"
     }
 }
 ```
