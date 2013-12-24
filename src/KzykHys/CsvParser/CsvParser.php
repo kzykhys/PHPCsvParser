@@ -50,7 +50,13 @@ class CsvParser implements \IteratorAggregate
         $lines = array();
 
         if ($csv !== '') {
-            $lines = preg_split('/\n/', $csv, -1, PREG_SPLIT_DELIM_CAPTURE);
+            if (!preg_match('/(\r|\n|\r\n)\Z/m', $csv)) {
+                $csv .= "\n";
+            }
+
+            preg_match_all('/[^\r\n]*(?:\r|\n|\r\n)+/m', $csv, $matches);
+
+            $lines = $matches[0];
         }
 
         return self::fromArray($lines, $option);

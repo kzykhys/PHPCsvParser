@@ -174,4 +174,16 @@ EOF;
         ), $result);
     }
 
+    public function testParseFromStringWithLinebreaksInACell()
+    {
+        $parser = \KzykHys\CsvParser\CsvParser::fromString(file_get_contents(__DIR__.'/Resources/csv/basic.utf8.csv'));
+
+        $result = $parser->parse();
+
+        $this->assertEquals(array(
+            array('1', 'The String', '3', '2012-11-15', '9'),
+            array('2', "The Multi-line\nString", '192818281211212212', '2012-11-15', 'ABC')
+        ), $result);
+    }
+
 }
