@@ -31,7 +31,7 @@ Create or modify your composer.json
 ``` json
 {
     "require": {
-        "kzykhys/php-csv-parser": ">=1.1.0"
+        "kzykhys/php-csv-parser": ">1.4"
     }
 }
 ```
@@ -128,10 +128,6 @@ foreach ($parser as $record) {
     var_dump($record);
 }
 ```
-
-### 
-
-If you have a trouble with line endings, please try [ini_set("auto_detect_line_endings", 1);](http://www.php.net/manual/en/filesystem.configuration.php#ini.auto-detect-line-endings).
 
 ### Options
 
