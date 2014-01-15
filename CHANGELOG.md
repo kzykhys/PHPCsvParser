@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+**1.4.1**:
+
+* Fixed: #4 #5
+
 **1.4.0**:
 
 * Reverted internal class `FileIterator`.
