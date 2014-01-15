@@ -77,7 +77,6 @@ class CsvIterator implements \Iterator
         // loop over the lines
         while ($this->iterator->valid()) {
             $line = $this->iterator->current();
-
             $line = mb_convert_encoding($line, 'UTF-8', isset($this->option['encoding']) ? $this->option['encoding'] : 'auto');
 
             // split the line by 'delimiter'
@@ -85,7 +84,26 @@ class CsvIterator implements \Iterator
 
             // loop over the columns
             foreach ($tokens as $value) {
-                $value = preg_replace('/"(\r?\n)*$/', '"', $value);
+                $value = preg_replace('/"(\r\n|\r|\n)*$/', '"', $value);
+
+//                if (strlen($value) == 1) {
+//                    var_dump($value);
+//                    if ($value == $this->option['enclosure']) {
+//                        if ($this->continue) {
+//                            $this->processClosingField($value, $this->option);
+//                        } else {
+//                            $this->processContinuousField($value, $this->option);
+//                        }
+//                    } else {
+//                        $this->processField($value, $this->option);
+//                    }
+//
+//                    if ($this->revert == "") {
+//                        $this->revert = $this->option['delimiter'];
+//                    }
+//
+//                    continue;
+//                }
 
                 // check the first letter is 'enclosure' or not
                 if (substr($value, 0, 1) == $this->option['enclosure']) {

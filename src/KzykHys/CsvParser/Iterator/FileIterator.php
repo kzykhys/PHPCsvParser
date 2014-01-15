@@ -34,6 +34,11 @@ class FileIterator implements \Iterator
     private $index = 0;
 
     /**
+     * @var string
+     */
+    private $defaultAutoDetectLineEndings;
+
+    /**
      * Constructor
      *
      * @param $path
@@ -45,6 +50,9 @@ class FileIterator implements \Iterator
         if (!file_exists($path)) {
             throw new \InvalidArgumentException('File not found: ' . $path);
         }
+
+        $this->defaultAutoDetectLineEndings = ini_get('auto_detect_line_endings');
+        ini_set("auto_detect_line_endings", 1);
 
         $stat = stat($path);
         $this->fileSize = $stat['size'];
@@ -59,6 +67,8 @@ class FileIterator implements \Iterator
         if ($this->handle) {
             fclose($this->handle);
         }
+
+        ini_set("auto_detect_line_endings", $this->defaultAutoDetectLineEndings);
     }
 
     /**
