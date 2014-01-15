@@ -1,0 +1,3 @@
+*.LF.csv text eol=lf
+*.CRLF.csv text eol=crlf
+*.CR.csv -text

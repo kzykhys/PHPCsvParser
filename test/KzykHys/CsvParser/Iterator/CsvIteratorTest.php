@@ -1,57 +1,24 @@
 <?php
 
+use KzykHys\CsvParser\Iterator\CsvIterator;
 
 class CsvIteratorTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testFileIterator()
-    {
-        $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
-
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \KzykHys\CsvParser\Iterator\FileIterator($file));
-
-        $result = iterator_to_array($iterator);
-
-        $this->assertEquals(array(
-            array('1', 'The String', '3', '2012-11-15', '9'),
-            array('2', "The Multi-line\nString", '192818281211212212', '2012-11-15', 'ABC')
-        ), $result);
-    }
-
-    public function testArray()
-    {
-        $test = array('1,2,3,4', '5,6,7,8');
-
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new ArrayIterator($test));
-
-        $result = iterator_to_array($iterator);
-
-        $this->assertEquals(array(array(1, 2, 3, 4), array(5, 6, 7, 8)), $result);
-    }
-
     public function testBlank()
     {
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new ArrayIterator());
-
-        $result = iterator_to_array($iterator);
+        $iterator = new CsvIterator(new ArrayIterator());
+        $result   = iterator_to_array($iterator);
 
         $this->assertEquals(array(), $result);
     }
 
-    public function testNamedIndex()
+    public function testArrayKey()
     {
-        $file = __DIR__ . '/../Resources/csv/basic.utf8.csv';
-
-        $iterator = new \KzykHys\CsvParser\Iterator\CsvIterator(new \KzykHys\CsvParser\Iterator\FileIterator($file), array(
-            'header' => array('ID', 'Text', 'Key', 'Date')
-        ));
-
+        $iterator = new CsvIterator(new ArrayIterator(array('1,2')), array('header' => array('a', 'b')));
         $result = iterator_to_array($iterator);
 
-        $this->assertEquals(array(
-            array('ID' => '1', 'Text' => 'The String', 'Key' => '3', 'Date' => '2012-11-15', 4 => '9'),
-            array('ID' => '2', 'Text' => "The Multi-line\nString", 'Key' => '192818281211212212', 'Date' => '2012-11-15', 4 => 'ABC')
-        ), $result);
+        $this->assertEquals(array(array('a' => 1, 'b' => 2)), $result);
     }
 
 }
