@@ -92,4 +92,21 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(1 => array(4, 5, 6), 2 => array(7, 8, 9)), $parser->parse());
     }
 
+    public function testMultibyteString()
+    {
+        $dir = __DIR__ . '/Resources/csv/';
+        $files = array(
+            $dir . '6-cp932-excel-win.csv', $dir . '6-cp932-excel-mac.csv'
+        );
+        $expected = json_decode(file_get_contents($dir . '6-cp932-excel.json'));
+
+        foreach ($files as $file) {
+            $fromFile   = CsvParser::fromFile($file)->parse();
+            $fromString = CsvParser::fromString(file_get_contents($file))->parse();
+            $this->assertEquals($fromFile, $fromString);
+            $this->assertEquals($expected, $fromFile);
+        }
+
+    }
+
 }
