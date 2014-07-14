@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="PHPCsvParser Test Suite">
-            <directory>test</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
