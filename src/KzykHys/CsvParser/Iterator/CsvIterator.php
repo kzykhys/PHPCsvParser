@@ -85,19 +85,25 @@ class CsvIterator implements \Iterator
             // loop over the columns
             foreach ($tokens as $value) {
                 $value = preg_replace('/"(\r\n|\r|\n)*$/', '"', $value);
+                
 
                 // check the first letter is 'enclosure' or not
                 if (substr($value, 0, 1) == $this->option['enclosure']) {
                     // check the last letter is 'enclosure'
-                    if (substr($value, -1) == $this->option['enclosure']) {
-                        $this->processEnclosedField($value, $this->option);
-                    } else {
-                        $this->processContinuousField($value, $this->option);
+                    if ($this->continue) {
+                      $this->processClosingField($value, $this->option);
+                    }
+                    else {
+                      if (strlen($value) > 1 && (substr($value, -1) == $this->option['enclosure'])) {
+                          $this->processEnclosedField($value, $this->option);
+                      } else {
+                          $this->processContinuousField($value, $this->option);
+                      }
                     }
 
                 } else { // first letter is NOT 'enclosure'
                     // check the last letter is 'enclosure'
-                    if(substr($value, -1) == $this->option['enclosure']) {
+                    if (substr($value, -1) == $this->option['enclosure']) {
                         $this->processClosingField($value, $this->option);
                     } else {
                         $this->processField($value, $this->option);
@@ -118,7 +124,7 @@ class CsvIterator implements \Iterator
             $this->revert = "";
             $this->iterator->next();
         }
-
+        
         return $this->result;
     }
 
