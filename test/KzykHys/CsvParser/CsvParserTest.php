@@ -10,7 +10,7 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
         $dir = __DIR__ . '/Resources/csv/';
 
         $names = array(
-            '1-plain', '3-quote-escaping', '4-multiline', '5-multiline-2'
+            '1-plain', '3-quote-escaping', '4-multiline', '5-multiline-2', '7-multiline-3'
         );
 
         $patterns = array();
