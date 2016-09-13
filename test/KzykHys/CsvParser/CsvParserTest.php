@@ -63,6 +63,23 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($out, $results['CR'], $name . '(CR)');
     }
 
+    public function testMultiLineWithQuotationAtEndOfLine()
+    {
+        //given
+        $csvString = <<<EOF
+"key","a","b","c"
+"abcd","<div class=\"class\"
+ href=\"/url\"
+>end</div>","asd",""
+EOF;
+
+        //when
+        $parsedCsv = CsvParser::fromString($csvString)->parse();
+
+        //then
+        $this->assertEquals('<div class=\"class\" href=\"/url\">end</div>',$parsedCsv[1][1]);
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
