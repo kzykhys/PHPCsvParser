@@ -2,7 +2,7 @@
 
 use KzykHys\CsvParser\Iterator\FileIterator;
 
-class FileIteratorTest extends \PHPUnit_Framework_TestCase
+class FileIteratorTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testIterator()
@@ -19,11 +19,9 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowExceptionIfFileIsInvalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new FileIterator(__DIR__.'/../Resources/csv/foo.csv');
     }
 

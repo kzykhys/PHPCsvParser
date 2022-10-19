@@ -1,12 +1,13 @@
 PHPCsvParser
 ============
 
-Convert CSV to array/Iterator (Excel style is fully suppoted!)
+> This is a fork of [kzykhys/PHPCsvParser](https://github.com/kzykhys/PHPCsvParser).
+> 
+> The only purpose of this fork is to fully support PHP 8 and fix some deprecation warnings.
+> 
+> All of the core functionality remains the same.
 
-[![Latest Stable Version](https://poser.pugx.org/kzykhys/php-csv-parser/v/stable.png)](https://packagist.org/packages/kzykhys/php-csv-parser)
-[![Build Status](https://travis-ci.org/kzykhys/PHPCsvParser.png?branch=master)](https://travis-ci.org/kzykhys/PHPCsvParser)
-[![Coverage Status](https://coveralls.io/repos/kzykhys/PHPCsvParser/badge.png)](https://coveralls.io/r/kzykhys/PHPCsvParser)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/67182075-8e11-4125-b9c2-6f29e5726c31/mini.png)](https://insight.sensiolabs.com/projects/67182075-8e11-4125-b9c2-6f29e5726c31)
+Convert CSV to array/Iterator (Excel style is fully supported!)
 
 Why PHPCsvParser?
 -----------------

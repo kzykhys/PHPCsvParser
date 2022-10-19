@@ -67,7 +67,7 @@ class CsvIterator implements \Iterator
      *
      * @return mixed Can return any type.
      */
-    public function current()
+    public function current(): mixed
     {
         $this->result = array();
 
@@ -300,7 +300,7 @@ class CsvIterator implements \Iterator
      *
      * @return void Any returned value is ignored.
      */
-    public function next()
+    public function next(): void
     {
         $this->iterator->next();
         $this->key++;
@@ -313,7 +313,7 @@ class CsvIterator implements \Iterator
      *
      * @return mixed scalar on success, or null on failure.
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->key;
     }
@@ -326,7 +326,7 @@ class CsvIterator implements \Iterator
      * @return boolean The return value will be casted to boolean and then evaluated.
      *          Returns true on success or false on failure.
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->iterator->valid();
     }
@@ -338,7 +338,7 @@ class CsvIterator implements \Iterator
      *
      * @return void Any returned value is ignored.
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->iterator->rewind();
         $this->key = 0;

@@ -2,7 +2,7 @@
 
 use KzykHys\CsvParser\CsvParser;
 
-class CsvParserTest extends \PHPUnit_Framework_TestCase
+class CsvParserTest extends \PHPUnit\Framework\TestCase
 {
 
     public function providePatterns()
@@ -63,16 +63,16 @@ class CsvParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($out, $results['CR'], $name . '(CR)');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidFile()
     {
+        $this->expectException(\InvalidArgumentException::class);
         CsvParser::fromFile('foo.csv');
     }
 
     public function testIterator()
     {
+        $this->expectNotToPerformAssertions();
+
         $parser = new CsvParser(new ArrayIterator());
 
         foreach ($parser as $row);

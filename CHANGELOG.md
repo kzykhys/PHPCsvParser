@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+**2.0.0**:
+
+* Added support for PHP 8
+
 **1.4.1**:
 
 * Fixed: #4 #5
